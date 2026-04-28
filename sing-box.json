@@ -35,6 +35,11 @@
         "action": "reject"
       },
       {
+        "rule_set": "cn_domain",
+        "action": "route",
+        "server": "ali"
+      },
+      {
         "query_type": [
           "A",
           "AAAA"
@@ -42,11 +47,6 @@
         "action": "route",
         "server": "fakeip",
         "rewrite_ttl": 1
-      },
-      {
-        "rule_set": "cn_domain",
-        "action": "route",
-        "server": "ali"
       }
     ],
     "final": "google",
@@ -435,7 +435,7 @@
         "all",
         "all-auto"
       ],
-      "default": "proxy"
+      "default": "tw"
     },
     {
       "tag": "youtube",
@@ -477,7 +477,7 @@
         "all",
         "all-auto"
       ],
-      "default": "proxy"
+      "default": "us"
     },
     {
       "tag": "cn",
@@ -618,7 +618,7 @@
         "all",
         "all-auto"
       ],
-      "default": "direct"
+      "default": "proxy"
     },
     {
       "tag": "direct",
