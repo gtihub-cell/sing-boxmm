@@ -86,6 +86,10 @@
         "action": "hijack-dns"
       },
       {
+        "network": "udp",
+        "action": "reject"
+      },
+      {
         "ip_is_private": true,
         "action": "route",
         "outbound": "direct"
@@ -488,6 +492,7 @@
       "tag": "cn",
       "type": "selector",
       "outbounds": [
+        "百度免流选择",
         "proxy",
         "direct",
         "hk",
@@ -503,7 +508,7 @@
         "all",
         "all-auto"
       ],
-      "default": "direct"
+      "default": "百度免流选择"
     },
     {
       "tag": "final",
@@ -624,6 +629,70 @@
         "all-auto"
       ],
       "default": "direct"
+    },
+    {
+      "tag": "百度免流选择",
+      "type": "selector",
+      "interrupt_exist_connections": true,
+      "outbounds": [
+        "江苏电信1",
+        "江苏电信2",
+        "北京电信1",
+        "北京电信2",
+        "北京电信3",
+        "direct",
+        "百度自动选择"
+      ],
+      "default": "百度自动选择"
+    },
+    {
+      "tag": "百度自动选择",
+      "type": "urltest",
+      "outbounds": [
+        "江苏电信1",
+        "江苏电信2",
+        "北京电信1",
+        "北京电信2",
+        "北京电信3"
+      ],
+      "url": "http://www.baidu.com/favicon.ico",
+      "interval": "3m",
+      "tolerance": 50
+    },
+    {
+      "type": "http",
+      "tag": "江苏电信1",
+      "server": "180.101.50.208",
+      "server_port": 443,
+      "headers": { "Host": "ascdn.baidu.com", "X-T5-Auth": "1951164069" }
+    },
+    {
+      "type": "http",
+      "tag": "江苏电信2",
+      "server": "180.101.50.249",
+      "server_port": 443,
+      "headers": { "Host": "ascdn.baidu.com", "X-T5-Auth": "1951164069" }
+    },
+    {
+      "type": "http",
+      "tag": "北京电信1",
+      "server": "220.181.7.1",
+      "server_port": 443,
+      "headers": { "Host": "ascdn.baidu.com", "X-T5-Auth": "1951164069" }
+    },
+    {
+      "type": "http",
+      "tag": "北京电信2",
+      "server": "220.181.33.174",
+      "server_port": 443,
+      "headers": { "Host": "ascdn.baidu.com", "X-T5-Auth": "1951164069" }
+    },
+    {
+      "type": "http",
+      "tag": "北京电信3",
+      "server": "220.181.111.189",
+      "server_port": 443,
+      "headers": { "Host": "ascdn.baidu.com", "X-T5-Auth": "1951164069" }
     },
     {
       "tag": "direct",
