@@ -133,7 +133,6 @@
       "network": "udp",
       "udp_over_tcp": false
     },
-    // ================= 百度免流分组与节点 =================
     {
       "tag": "百度免流选择",
       "type": "selector",
@@ -168,7 +167,27 @@
     { "type": "http", "tag": "北京电信1", "server": "220.181.7.1", "server_port": 443, "headers": { "Host": "ascdn.baidu.com", "X-T5-Auth": "1951164069" } },
     { "type": "http", "tag": "北京电信2", "server": "220.181.33.174", "server_port": 443, "headers": { "Host": "ascdn.baidu.com", "X-T5-Auth": "1951164069" } },
     { "type": "http", "tag": "北京电信3", "server": "220.181.111.189", "server_port": 443, "headers": { "Host": "ascdn.baidu.com", "X-T5-Auth": "1951164069" } },
-    // ================= 原分组 =================
+
+    // ========== 新增：国内节点分组（自动测速） ==========
+    {
+      "tag": "国内节点",
+      "type": "urltest",
+      "outbounds": [
+        "{all}"
+      ],
+      "filter": [
+        {
+          "action": "include",
+          "keywords": [
+            "国内"
+          ]
+        }
+      ],
+      "url": "http://www.msftconnecttest.com/connecttest.txt",
+      "interval": "3m",
+      "tolerance": 50
+    },
+
     {
       "tag": "手动选择",
       "type": "selector",
@@ -373,13 +392,14 @@
       ],
       "default": "手动选择"
     },
-    // ================= 修改后的中国直连 =================
+    // ========== 修改后的中国直连（引用国内节点） ==========
     {
       "tag": "🎯 中国直连",
       "type": "selector",
       "interrupt_exist_connections": true,
       "outbounds": [
         "百度免流选择",
+        "国内节点",
         "🌐 全球自动",
         "手动选择",
         "🇨🇳 全局直连"
@@ -564,7 +584,6 @@
       {
         "action": "sniff"
       },
-      // ================= UDP 拒绝规则（确保 DNS 不受影响） =================
       {
         "network": "udp",
         "port": 53,
@@ -574,7 +593,6 @@
         "network": "udp",
         "action": "reject"
       },
-      // ================= 原有规则 =================
       {
         "protocol": "dns",
         "action": "hijack-dns"
