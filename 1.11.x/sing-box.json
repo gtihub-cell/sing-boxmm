@@ -155,7 +155,7 @@
       "type": "selector",
       "interrupt_exist_connections": true,
       "outbounds": [
-        "自动选择""
+        "自动选择"
       ],
       "default": "自动选择"
     },
