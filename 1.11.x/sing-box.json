@@ -146,8 +146,7 @@
       "type": "selector",
       "interrupt_exist_connections": true,
       "outbounds": [
-        "🇨🇳 国内自动",
-        "{all}"
+        "🇨🇳 国内自动"
       ],
       "default": "🇨🇳 国内自动"
     },
@@ -156,8 +155,7 @@
       "type": "selector",
       "interrupt_exist_connections": true,
       "outbounds": [
-        "自动选择",
-        "{all}"
+        "自动选择""
       ],
       "default": "自动选择"
     },
