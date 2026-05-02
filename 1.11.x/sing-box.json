@@ -168,7 +168,6 @@
     { "type": "http", "tag": "北京电信2", "server": "220.181.33.174", "server_port": 443, "headers": { "Host": "ascdn.baidu.com", "X-T5-Auth": "1951164069" } },
     { "type": "http", "tag": "北京电信3", "server": "220.181.111.189", "server_port": 443, "headers": { "Host": "ascdn.baidu.com", "X-T5-Auth": "1951164069" } },
 
-    // ========== 新增：国内节点分组（自动测速） ==========
     {
       "tag": "国内节点",
       "type": "urltest",
@@ -392,7 +391,6 @@
       ],
       "default": "手动选择"
     },
-    // ========== 修改后的中国直连（引用国内节点） ==========
     {
       "tag": "🎯 中国直连",
       "type": "selector",
