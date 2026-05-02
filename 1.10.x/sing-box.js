@@ -1,53 +1,77 @@
-const { type, name } = $arguments
-const compatible_outbound = {
-  tag: 'COMPATIBLE',
-  type: 'direct',
-}
+function operator(proxies) {
+  // ========== 国内关键词 ==========
+  const domesticKeywords = [
+    "北京","上海","广州","深圳","杭州","成都","南京",
+    "武汉","重庆","天津","苏州","西安","长沙","郑州",
+    "东莞","青岛","沈阳","宁波","昆明","大连","厦门",
+    "合肥","佛山","福州","哈尔滨","济南","温州","长春",
+    "石家庄","常州","泉州","南宁","贵阳","南昌","太原",
+    "烟台","嘉兴","南通","金华","珠海","惠州","徐州",
+    "海口","乌鲁木齐","兰州","呼和浩特","银川","西宁",
+    "拉萨","绍兴","桂林","三亚","芜湖","镇江","盐城",
+    "广东","浙江","江苏","四川","湖北","湖南","河北",
+    "河南","山东","辽宁","陕西","山西","安徽","福建",
+    "江西","黑龙江","吉林","云南","贵州","甘肃","青海",
+    "广西","内蒙古","西藏","宁夏","新疆",
+    "中国","国内","回国","CN","China",
+    "华东","华南","华北","华中","西南","西北","东北"
+  ];
 
-let compatible
-let config = JSON.parse($files[0])
-let proxies = await produceArtifact({
-  name,
-  type: /^1$|col/i.test(type) ? 'collection' : 'subscription',
-  platform: 'sing-box',
-  produceType: 'internal',
-})
+  function isDomestic(name) {
+    if (!name) return false;
+    const lowerName = name.toLowerCase();
+    return domesticKeywords.some(kw => lowerName.includes(kw.toLowerCase()));
+  }
 
-config.outbounds.push(...proxies)
+  // ========== 记录原始顺序 ==========
+  proxies.forEach((p, idx) => { p._origIndex = idx; });
 
-config.outbounds.map(i => {
-  if (['all', 'all-auto'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies))
-  }
-  if (['hk', 'hk-auto'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies, /港|hk|hongkong|hong kong|🇭🇰/i))
-  }
-  if (['tw', 'tw-auto'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies, /台|tw|taiwan|🇹🇼/i))
-  }
-  if (['jp', 'jp-auto'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies, /日本|jp|japan|🇯🇵/i))
-  }
-  if (['sg', 'sg-auto'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies, /^(?!.*(?:us)).*(新|sg|singapore|🇸🇬)/i))
-  }
-  if (['us', 'us-auto'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies, /美|us|unitedstates|united states|🇺🇸/i))
-  }
-})
+  // ========== 排序：国内优先 → vmess优先 → 按名称 → 原始顺序 ==========
+  proxies.sort((a, b) => {
+    const aDom = isDomestic(a.name) ? 0 : 1;
+    const bDom = isDomestic(b.name) ? 0 : 1;
+    if (aDom !== bDom) return aDom - bDom;
 
-config.outbounds.forEach(outbound => {
-  if (Array.isArray(outbound.outbounds) && outbound.outbounds.length === 0) {
-    if (!compatible) {
-      config.outbounds.push(compatible_outbound)
-      compatible = true
+    const aVM = a.type === "vmess" ? 0 : 1;
+    const bVM = b.type === "vmess" ? 0 : 1;
+    if (aVM !== bVM) return aVM - bVM;
+
+    if (a.name < b.name) return -1;
+    if (a.name > b.name) return 1;
+    return a._origIndex - b._origIndex;
+  });
+
+  proxies.forEach(p => delete p._origIndex);
+
+  // ========== 节点处理 ==========
+  return proxies.map(p => {
+    const isDom = isDomestic(p.name);
+
+    // 1. 打标签（添加前缀）
+    const prefix = isDom ? "[国内] " : "[国外] ";
+    if (!p.name.startsWith(prefix)) {
+      p.name = prefix + p.name;
     }
-    outbound.outbounds.push(compatible_outbound.tag);
-  }
-});
 
-$content = JSON.stringify(config, null, 2)
+    // 2. 国内外节点统一走百度免流链式
+    //p.detour = "百度免流选择";
 
-function getTags(proxies, regex) {
-  return (regex ? proxies.filter(p => regex.test(p.tag)) : proxies).map(p => p.tag)
+    // 3. vmess 专属：加 "ml" 子前缀 + Host 伪装
+    if (p.type === "vmess") {
+      // 已带有 [国内]/[国外] 前缀，追加 ml
+      if (!p.name.includes("ml ")) {
+        p.name = p.name.replace(/^(\[(国内|国外)\] )/, "$1ml ");
+      }
+      if (p.network === "ws") {
+        p["ws-opts"] = p["ws-opts"] || {};
+        p["ws-opts"].headers = p["ws-opts"].headers || {};
+        p["ws-opts"].headers["Host"] = "t7z.cupid.iqiyi.com";
+      } else if (p.network === "http") {
+        p["http-opts"] = p["http-opts"] || {};
+        p["http-opts"].headers = p["http-opts"].headers || {};
+        p["http-opts"].headers["Host"] = "t7z.cupid.iqiyi.com";
+      }
+    }
+    return p;
+  });
 }
