@@ -7,7 +7,7 @@
   },
   "experimental": {
     "clash_api": {
-      "external_controller": "0.0.0.0:20123",
+      "external_controller": "0.0.0.0:9090",
       "external_ui": "ui",
       "secret": "",
       "default_mode": "rule",
@@ -57,33 +57,11 @@
       }
     ],
     "rules": [
-      {
-        "outbound": "any",
-        "server": "DIRECT-DNS"
-      },
-      {
-        "clash_mode": "direct",
-        "server": "DIRECT-DNS"
-      },
-      {
-        "clash_mode": "global",
-        "server": "PROXY-DNS"
-      },
-      {
-        "rule_set": [
-          "geosite-cn",
-          "geosite-private"
-        ],
-        "server": "DIRECT-DNS"
-      },
-      {
-        "query_type": [
-          "A",
-          "AAAA"
-        ],
-        "server": "FAKEIP-DNS",
-        "rewrite_ttl": 1
-      }
+      { "outbound": "any", "server": "DIRECT-DNS" },
+      { "clash_mode": "direct", "server": "DIRECT-DNS" },
+      { "clash_mode": "global", "server": "PROXY-DNS" },
+      { "rule_set": ["geosite-cn", "geosite-private"], "server": "DIRECT-DNS" },
+      { "query_type": ["A", "AAAA"], "server": "FAKEIP-DNS", "rewrite_ttl": 1 }
     ],
     "disable_cache": true,
     "disable_expire": true,
@@ -95,9 +73,7 @@
     {
       "tag": "tun-in",
       "type": "tun",
-      "address": [
-        "172.19.0.0/30"
-      ],
+      "address": ["172.19.0.0/30"],
       "mtu": 9000,
       "auto_route": true,
       "strict_route": true,
@@ -118,10 +94,7 @@
     }
   ],
   "outbounds": [
-    {
-      "tag": "🇨🇳 全局直连",
-      "type": "direct"
-    },
+    { "tag": "🇨🇳 全局直连", "type": "direct" },
     {
       "tag": "🚫 拒绝连接",
       "type": "socks",
@@ -138,11 +111,7 @@
       "type": "selector",
       "interrupt_exist_connections": true,
       "outbounds": [
-        "江苏电信1",
-        "江苏电信2",
-        "北京电信1",
-        "北京电信2",
-        "北京电信3",
+        "江苏电信1","江苏电信2","北京电信1","北京电信2","北京电信3",
         "🇨🇳 全局直连",
         "百度自动选择"
       ],
@@ -152,11 +121,7 @@
       "tag": "百度自动选择",
       "type": "urltest",
       "outbounds": [
-        "江苏电信1",
-        "江苏电信2",
-        "北京电信1",
-        "北京电信2",
-        "北京电信3"
+        "江苏电信1","江苏电信2","北京电信1","北京电信2","北京电信3"
       ],
       "url": "http://www.baidu.com/favicon.ico",
       "interval": "3m",
@@ -169,14 +134,23 @@
     { "type": "http", "tag": "北京电信3", "server": "220.181.111.189", "server_port": 443, "headers": { "Host": "ascdn.baidu.com", "X-T5-Auth": "1951164069" } },
 
     {
-      "tag": "国内节点",
+      "tag": "🇨🇳 国内自动",
       "type": "urltest",
       "outbounds": [],
       "url": "http://www.msftconnecttest.com/connecttest.txt",
       "interval": "3m",
       "tolerance": 50
     },
-
+    {
+      "tag": "国内手动",
+      "type": "selector",
+      "interrupt_exist_connections": true,
+      "outbounds": [
+        "🇨🇳 国内自动",
+        "{all}"
+      ],
+      "default": "🇨🇳 国内自动"
+    },
     {
       "tag": "手动选择",
       "type": "selector",
@@ -190,195 +164,76 @@
     {
       "tag": "自动选择",
       "type": "urltest",
-      "outbounds": [
-        "{all}"
-      ],
-      "filter": [
-        {
-          "action": "exclude",
-          "keywords": [
-            "网站|地址|剩余|过期|时间|有效"
-          ]
-        }
-      ],
+      "outbounds": [],
       "url": "http://www.msftconnecttest.com/connecttest.txt",
       "interval": "3m",
       "tolerance": 50
     },
+
     {
       "tag": "🤖 AI",
       "type": "selector",
-      "interrupt_exist_connections": true,
-      "outbounds": [
-        "手动选择",
-        "🇭🇰 香港自动",
-        "🇨🇳 台湾自动",
-        "🇸🇬 新加坡自动",
-        "🇯🇵 日本自动",
-        "🇰🇷 韩国自动",
-        "🇺🇸 美国自动",
-        "🌐 全球自动"
-      ],
+      "outbounds": ["手动选择", "自动选择", "🇭🇰 香港自动", "🇨🇳 台湾自动", "🇸🇬 新加坡自动", "🇯🇵 日本自动", "🇰🇷 韩国自动", "🇺🇸 美国自动", "🌐 全球自动"],
       "default": "🇺🇸 美国自动"
     },
     {
       "tag": "📲 TELEGRAM",
       "type": "selector",
-      "interrupt_exist_connections": true,
-      "outbounds": [
-        "手动选择",
-        "🇭🇰 香港自动",
-        "🇨🇳 台湾自动",
-        "🇸🇬 新加坡自动",
-        "🇯🇵 日本自动",
-        "🇰🇷 韩国自动",
-        "🇺🇸 美国自动",
-        "🌐 全球自动"
-      ],
+      "outbounds": ["手动选择", "🇭🇰 香港自动", "🇨🇳 台湾自动", "🇸🇬 新加坡自动", "🇯🇵 日本自动", "🇰🇷 韩国自动", "🇺🇸 美国自动", "🌐 全球自动"],
       "default": "手动选择"
     },
     {
       "tag": "🐦 X",
       "type": "selector",
-      "interrupt_exist_connections": true,
-      "outbounds": [
-        "手动选择",
-        "🇭🇰 香港自动",
-        "🇨🇳 台湾自动",
-        "🇸🇬 新加坡自动",
-        "🇯🇵 日本自动",
-        "🇰🇷 韩国自动",
-        "🇺🇸 美国自动",
-        "🌐 全球自动"
-      ],
+      "outbounds": ["手动选择", "🇭🇰 香港自动", "🇨🇳 台湾自动", "🇸🇬 新加坡自动", "🇯🇵 日本自动", "🇰🇷 韩国自动", "🇺🇸 美国自动", "🌐 全球自动"],
       "default": "手动选择"
     },
     {
       "tag": "🎥 TIKTOK",
       "type": "selector",
-      "interrupt_exist_connections": true,
-      "outbounds": [
-        "手动选择",
-        "🇭🇰 香港自动",
-        "🇨🇳 台湾自动",
-        "🇸🇬 新加坡自动",
-        "🇯🇵 日本自动",
-        "🇰🇷 韩国自动",
-        "🇺🇸 美国自动",
-        "🌐 全球自动"
-      ],
+      "outbounds": ["手动选择", "🇭🇰 香港自动", "🇨🇳 台湾自动", "🇸🇬 新加坡自动", "🇯🇵 日本自动", "🇰🇷 韩国自动", "🇺🇸 美国自动", "🌐 全球自动"],
       "default": "🇸🇬 新加坡自动"
     },
     {
       "tag": "📺 YOUTUBE",
       "type": "selector",
-      "interrupt_exist_connections": true,
-      "outbounds": [
-        "手动选择",
-        "🇭🇰 香港自动",
-        "🇨🇳 台湾自动",
-        "🇸🇬 新加坡自动",
-        "🇯🇵 日本自动",
-        "🇰🇷 韩国自动",
-        "🇺🇸 美国自动",
-        "🌐 全球自动"
-      ],
+      "outbounds": ["手动选择", "🇭🇰 香港自动", "🇨🇳 台湾自动", "🇸🇬 新加坡自动", "🇯🇵 日本自动", "🇰🇷 韩国自动", "🇺🇸 美国自动", "🌐 全球自动"],
       "default": "手动选择"
     },
     {
       "tag": "🎵 SPOTIFY",
       "type": "selector",
-      "interrupt_exist_connections": true,
-      "outbounds": [
-        "手动选择",
-        "🇭🇰 香港自动",
-        "🇨🇳 台湾自动",
-        "🇸🇬 新加坡自动",
-        "🇯🇵 日本自动",
-        "🇰🇷 韩国自动",
-        "🇺🇸 美国自动",
-        "🌐 全球自动"
-      ],
+      "outbounds": ["手动选择", "🇭🇰 香港自动", "🇨🇳 台湾自动", "🇸🇬 新加坡自动", "🇯🇵 日本自动", "🇰🇷 韩国自动", "🇺🇸 美国自动", "🌐 全球自动"],
       "default": "🇭🇰 香港自动"
     },
     {
       "tag": "🌵 LINE",
       "type": "selector",
-      "interrupt_exist_connections": true,
-      "outbounds": [
-        "手动选择",
-        "🇭🇰 香港自动",
-        "🇨🇳 台湾自动",
-        "🇸🇬 新加坡自动",
-        "🇯🇵 日本自动",
-        "🇰🇷 韩国自动",
-        "🇺🇸 美国自动",
-        "🌐 全球自动"
-      ],
+      "outbounds": ["手动选择", "🇭🇰 香港自动", "🇨🇳 台湾自动", "🇸🇬 新加坡自动", "🇯🇵 日本自动", "🇰🇷 韩国自动", "🇺🇸 美国自动", "🌐 全球自动"],
       "default": "手动选择"
     },
     {
       "tag": "📹 NETFLIX",
       "type": "selector",
-      "interrupt_exist_connections": true,
-      "outbounds": [
-        "手动选择",
-        "🇭🇰 香港自动",
-        "🇨🇳 台湾自动",
-        "🇸🇬 新加坡自动",
-        "🇯🇵 日本自动",
-        "🇰🇷 韩国自动",
-        "🇺🇸 美国自动",
-        "🌐 全球自动"
-      ],
+      "outbounds": ["手动选择", "🇭🇰 香港自动", "🇨🇳 台湾自动", "🇸🇬 新加坡自动", "🇯🇵 日本自动", "🇰🇷 韩国自动", "🇺🇸 美国自动", "🌐 全球自动"],
       "default": "手动选择"
     },
     {
       "tag": "🔍 GOOGLE",
       "type": "selector",
-      "interrupt_exist_connections": true,
-      "outbounds": [
-        "手动选择",
-        "🇭🇰 香港自动",
-        "🇨🇳 台湾自动",
-        "🇸🇬 新加坡自动",
-        "🇯🇵 日本自动",
-        "🇰🇷 韩国自动",
-        "🇺🇸 美国自动",
-        "🌐 全球自动"
-      ],
+      "outbounds": ["手动选择", "🇭🇰 香港自动", "🇨🇳 台湾自动", "🇸🇬 新加坡自动", "🇯🇵 日本自动", "🇰🇷 韩国自动", "🇺🇸 美国自动", "🌐 全球自动"],
       "default": "手动选择"
     },
     {
       "tag": "📖 MICROSOFT",
       "type": "selector",
-      "interrupt_exist_connections": true,
-      "outbounds": [
-        "手动选择",
-        "🇭🇰 香港自动",
-        "🇨🇳 台湾自动",
-        "🇸🇬 新加坡自动",
-        "🇯🇵 日本自动",
-        "🇰🇷 韩国自动",
-        "🇺🇸 美国自动",
-        "🌐 全球自动"
-      ],
+      "outbounds": ["手动选择", "🇭🇰 香港自动", "🇨🇳 台湾自动", "🇸🇬 新加坡自动", "🇯🇵 日本自动", "🇰🇷 韩国自动", "🇺🇸 美国自动", "🌐 全球自动"],
       "default": "手动选择"
     },
     {
       "tag": "🍎 APPLE",
       "type": "selector",
-      "interrupt_exist_connections": true,
-      "outbounds": [
-        "手动选择",
-        "🇭🇰 香港自动",
-        "🇨🇳 台湾自动",
-        "🇸🇬 新加坡自动",
-        "🇯🇵 日本自动",
-        "🇰🇷 韩国自动",
-        "🇺🇸 美国自动",
-        "🌐 全球自动"
-      ],
+      "outbounds": ["手动选择", "🇭🇰 香港自动", "🇨🇳 台湾自动", "🇸🇬 新加坡自动", "🇯🇵 日本自动", "🇰🇷 韩国自动", "🇺🇸 美国自动", "🌐 全球自动", "🎯 中国直连"],
       "default": "手动选择"
     },
     {
@@ -387,9 +242,7 @@
       "interrupt_exist_connections": true,
       "outbounds": [
         "百度免流选择",
-        "国内节点",
-        "🌐 全球自动",
-        "手动选择",
+        "国内手动",
         "🇨🇳 全局直连"
       ],
       "default": "百度免流选择"
@@ -397,47 +250,25 @@
     {
       "tag": "🔈 广告拦截",
       "type": "selector",
-      "interrupt_exist_connections": true,
-      "outbounds": [
-        "🚫 拒绝连接",
-        "🎯 中国直连",
-        "手动选择"
-      ]
+      "outbounds": ["🚫 拒绝连接", "🎯 中国直连", "手动选择"],
+      "default": "🚫 拒绝连接"
     },
     {
       "tag": "💧 泄漏拦截",
       "type": "selector",
-      "interrupt_exist_connections": true,
-      "outbounds": [
-        "🚫 拒绝连接",
-        "🎯 中国直连",
-        "手动选择"
-      ]
+      "outbounds": ["🚫 拒绝连接", "🎯 中国直连", "手动选择"],
+      "default": "🚫 拒绝连接"
     },
     {
       "tag": "🔎 HTTPDNS",
       "type": "selector",
-      "interrupt_exist_connections": true,
-      "outbounds": [
-        "🚫 拒绝连接",
-        "🎯 中国直连",
-        "手动选择"
-      ]
+      "outbounds": ["🚫 拒绝连接", "🎯 中国直连", "手动选择"],
+      "default": "🚫 拒绝连接"
     },
     {
       "tag": "🇭🇰 香港自动",
       "type": "urltest",
-      "outbounds": [
-        "{all}"
-      ],
-      "filter": [
-        {
-          "action": "include",
-          "keywords": [
-            "🇭🇰|HK|hk|香港|港|HongKong"
-          ]
-        }
-      ],
+      "outbounds": [],
       "url": "http://www.msftconnecttest.com/connecttest.txt",
       "interval": "3m",
       "tolerance": 50
@@ -445,17 +276,7 @@
     {
       "tag": "🇨🇳 台湾自动",
       "type": "urltest",
-      "outbounds": [
-        "{all}"
-      ],
-      "filter": [
-        {
-          "action": "include",
-          "keywords": [
-            "🇹🇼|TW|tw|台湾|臺灣|台|Taiwan"
-          ]
-        }
-      ],
+      "outbounds": [],
       "url": "http://www.msftconnecttest.com/connecttest.txt",
       "interval": "3m",
       "tolerance": 50
@@ -463,17 +284,7 @@
     {
       "tag": "🇸🇬 新加坡自动",
       "type": "urltest",
-      "outbounds": [
-        "{all}"
-      ],
-      "filter": [
-        {
-          "action": "include",
-          "keywords": [
-            "🇸🇬|SG|sg|新加坡|狮|Singapore"
-          ]
-        }
-      ],
+      "outbounds": [],
       "url": "http://www.msftconnecttest.com/connecttest.txt",
       "interval": "3m",
       "tolerance": 50
@@ -481,17 +292,7 @@
     {
       "tag": "🇯🇵 日本自动",
       "type": "urltest",
-      "outbounds": [
-        "{all}"
-      ],
-      "filter": [
-        {
-          "action": "include",
-          "keywords": [
-            "🇯🇵|JP|jp|日本|日|Japan"
-          ]
-        }
-      ],
+      "outbounds": [],
       "url": "http://www.msftconnecttest.com/connecttest.txt",
       "interval": "3m",
       "tolerance": 50
@@ -499,17 +300,7 @@
     {
       "tag": "🇰🇷 韩国自动",
       "type": "urltest",
-      "outbounds": [
-        "{all}"
-      ],
-      "filter": [
-        {
-          "action": "include",
-          "keywords": [
-            "🇰🇷|KR|kr|韩国|韩|Korea|South Korea"
-          ]
-        }
-      ],
+      "outbounds": [],
       "url": "http://www.msftconnecttest.com/connecttest.txt",
       "interval": "3m",
       "tolerance": 50
@@ -517,17 +308,7 @@
     {
       "tag": "🇺🇸 美国自动",
       "type": "urltest",
-      "outbounds": [
-        "{all}"
-      ],
-      "filter": [
-        {
-          "action": "include",
-          "keywords": [
-            "🇺🇸|US|us|美国|美|United States"
-          ]
-        }
-      ],
+      "outbounds": [],
       "url": "http://www.msftconnecttest.com/connecttest.txt",
       "interval": "3m",
       "tolerance": 50
@@ -535,361 +316,90 @@
     {
       "tag": "🌐 全球自动",
       "type": "urltest",
-      "outbounds": [
-        "{all}"
-      ],
-      "filter": [
-        {
-          "action": "exclude",
-          "keywords": [
-            "HK",
-            "hk",
-            "香港",
-            "TW",
-            "tw",
-            "台湾",
-            "SG",
-            "sg",
-            "新加坡",
-            "JP",
-            "jp",
-            "日本",
-            "🇰🇷",
-            "KR",
-            "韩国",
-            "US",
-            "us",
-            "美国"
-          ]
-        }
-      ]
+      "outbounds": [],
+      "url": "http://www.msftconnecttest.com/connecttest.txt",
+      "interval": "3m",
+      "tolerance": 50
+    },
+    {
+      "tag": "GLOBAL",
+      "type": "selector",
+      "outbounds": ["🎯 中国直连", "手动选择", "🇭🇰 香港自动", "🇨🇳 台湾自动", "🇸🇬 新加坡自动", "🇯🇵 日本自动", "🇰🇷 韩国自动", "🇺🇸 美国自动", "🌐 全球自动"],
+      "default": "手动选择"
     }
   ],
   "route": {
     "auto_detect_interface": true,
     "final": "手动选择",
     "rules": [
-      {
-        "action": "sniff"
-      },
-      {
-        "network": "udp",
-        "port": 53,
-        "action": "hijack-dns"
-      },
-      {
-        "network": "udp",
-        "action": "reject"
-      },
-      {
-        "protocol": "dns",
-        "action": "hijack-dns"
-      },
-      {
-        "ip_is_private": true,
-        "outbound": "🎯 中国直连"
-      },
-      {
-        "clash_mode": "direct",
-        "outbound": "🎯 中国直连"
-      },
-      {
-        "domain": [
-          "cdn.jsdmirror.com"
-        ],
-        "outbound": "🎯 中国直连"
-      },
-      {
-        "rule_set": "geosite-category-ads-all",
-        "action": "reject"
-      },
+      { "action": "sniff" },
+      { "network": "udp", "port": 53, "action": "hijack-dns" },
+      { "network": "udp", "action": "reject" },
+      { "network": "udp", "port": 443, "action": "reject" },
+      { "protocol": "dns", "action": "hijack-dns" },
+      { "ip_is_private": true, "outbound": "🎯 中国直连" },
+      { "clash_mode": "direct", "outbound": "🎯 中国直连" },
+      { "clash_mode": "global", "outbound": "GLOBAL" },
+      { "domain": ["cdn.jsdmirror.com"], "outbound": "🎯 中国直连" },
+      { "rule_set": "geosite-category-ads-all", "action": "reject" },
       {
         "type": "logical",
         "mode": "or",
         "rules": [
-          {
-            "port": [
-              3478
-            ]
-          },
-          {
-            "network": [
-              "tcp"
-            ],
-            "port": [
-              5349
-            ]
-          },
-          {
-            "network": [
-              "udp"
-            ],
-            "port": [
-              5350,
-              5351,
-              19302
-            ]
-          },
-          {
-            "rule_set": [
-              "STUN"
-            ]
-          }
+          { "port": 3478 },
+          { "network": "tcp", "port": 5349 },
+          { "network": "udp", "port": [5350, 5351, 19302] },
+          { "rule_set": "STUN" }
         ],
         "outbound": "💧 泄漏拦截"
       },
+      { "rule_set": "BlockHttpDNS", "outbound": "🔎 HTTPDNS" },
+      { "rule_set": ["geoip-google", "geosite-google", "geosite-facebook", "geosite-instagram", "geosite-threads"], "outbound": "🔍 GOOGLE" },
+      { "rule_set": "geosite-ai", "outbound": "🤖 AI" },
+      { "rule_set": "geosite-youtube", "outbound": "📺 YOUTUBE" },
+      { "rule_set": "geosite-tiktok", "outbound": "🎥 TIKTOK" },
+      { "rule_set": "geosite-line", "outbound": "🌵 LINE" },
+      { "rule_set": "geosite-twitter", "outbound": "🐦 X" },
+      { "rule_set": "geosite-spotify", "outbound": "🎵 SPOTIFY" },
+      { "rule_set": ["geoip-telegram", "geosite-telegram"], "outbound": "📲 TELEGRAM" },
+      { "rule_set": ["geoip-netflix", "geosite-netflix"], "outbound": "📹 NETFLIX" },
+      { "rule_set": "geosite-microsoft", "outbound": "📖 MICROSOFT" },
+      { "rule_set": ["geoip-apple", "geosite-apple"], "outbound": "🍎 APPLE" },
       {
-        "rule_set": [
-          "BlockHttpDNS"
-        ],
-        "outbound": "🔎 HTTPDNS"
+        "rule_set": ["geoip-cn", "geosite-cn", "geosite-private"],
+        "network": "udp",
+        "port_range": ["443:443", "10000:65535"],
+        "action": "reject",
+        "method": "drop"
       },
-      {
-        "rule_set": [
-          "geoip-google",
-          "geosite-google",
-          "geosite-facebook",
-          "geosite-instagram",
-          "geosite-threads"
-        ],
-        "outbound": "🔍 GOOGLE"
-      },
-      {
-        "rule_set": "geosite-ai",
-        "outbound": "🤖 AI"
-      },
-      {
-        "rule_set": "geosite-youtube",
-        "outbound": "📺 YOUTUBE"
-      },
-      {
-        "rule_set": "geosite-tiktok",
-        "outbound": "🎥 TIKTOK"
-      },
-      {
-        "rule_set": "geosite-line",
-        "outbound": "🌵 LINE"
-      },
-      {
-        "rule_set": "geosite-twitter",
-        "outbound": "🐦 X"
-      },
-      {
-        "rule_set": "geosite-spotify",
-        "outbound": "🎵 SPOTIFY"
-      },
-      {
-        "rule_set": [
-          "geoip-telegram",
-          "geosite-telegram"
-        ],
-        "outbound": "📲 TELEGRAM"
-      },
-      {
-        "rule_set": [
-          "geoip-netflix",
-          "geosite-netflix"
-        ],
-        "outbound": "📹 NETFLIX"
-      },
-      {
-        "rule_set": [
-          "geosite-microsoft"
-        ],
-        "outbound": "📖 MICROSOFT"
-      },
-      {
-        "rule_set": [
-          "geoip-apple",
-          "geosite-apple"
-        ],
-        "outbound": "🍎 APPLE"
-      },
-      {
-        "rule_set": [
-          "geoip-cn",
-          "geosite-cn",
-          "geosite-private"
-        ],
-        "outbound": "🎯 中国直连"
-      }
+      { "rule_set": ["geoip-cn", "geosite-cn", "geosite-private"], "outbound": "🎯 中国直连" }
     ],
     "rule_set": [
-      {
-        "tag": "geosite-private",
-        "type": "remote",
-        "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/private.srs",
-        "format": "binary",
-        "download_detour": "🎯 中国直连"
-      },
-      {
-        "tag": "geosite-cn",
-        "type": "remote",
-        "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/cn.srs",
-        "format": "binary",
-        "download_detour": "🎯 中国直连"
-      },
-      {
-        "tag": "geosite-category-ads-all",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/category-ads-all.srs",
-        "download_detour": "🎯 中国直连"
-      },
-      {
-        "tag": "geosite-ai",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/category-ai-!cn.srs",
-        "download_detour": "🎯 中国直连"
-      },
-      {
-        "tag": "geosite-youtube",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/youtube.srs",
-        "download_detour": "🎯 中国直连"
-      },
-      {
-        "tag": "geosite-google",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/google.srs",
-        "download_detour": "🎯 中国直连"
-      },
-      {
-        "tag": "geosite-telegram",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/telegram.srs",
-        "download_detour": "🎯 中国直连"
-      },
-      {
-        "tag": "geosite-tiktok",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/tiktok.srs",
-        "download_detour": "🎯 中国直连"
-      },
-      {
-        "tag": "geosite-line",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://gh.iknn.eu.org/https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geosite/line.srs",
-        "download_detour": "🎯 中国直连"
-      },
-      {
-        "tag": "geosite-netflix",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/netflix.srs",
-        "download_detour": "🎯 中国直连"
-      },
-      {
-        "tag": "geosite-apple",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/apple.srs",
-        "download_detour": "🎯 中国直连"
-      },
-      {
-        "tag": "geosite-microsoft",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/microsoft.srs",
-        "download_detour": "🎯 中国直连"
-      },
-      {
-        "tag": "geoip-private",
-        "type": "remote",
-        "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/private.srs",
-        "format": "binary",
-        "download_detour": "🎯 中国直连"
-      },
-      {
-        "tag": "geoip-google",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geoip/google.srs",
-        "download_detour": "🎯 中国直连"
-      },
-      {
-        "tag": "geoip-telegram",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geoip/telegram.srs",
-        "download_detour": "🎯 中国直连"
-      },
-      {
-        "tag": "geosite-twitter",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://gh.iknn.eu.org/https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geoip/twitter.srs",
-        "download_detour": "🎯 中国直连"
-      },
-      {
-        "tag": "geosite-facebook",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://gh.iknn.eu.org/https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geosite/facebook.srs",
-        "download_detour": "🎯 中国直连"
-      },
-      {
-        "tag": "geosite-instagram",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://gh.iknn.eu.org/https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geosite/instagram.srs",
-        "download_detour": "🎯 中国直连"
-      },
-      {
-        "tag": "geosite-threads",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://gh.iknn.eu.org/https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geosite/threads.srs",
-        "download_detour": "🎯 中国直连"
-      },
-      {
-        "tag": "geosite-spotify",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://gh.iknn.eu.org/https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geosite/spotify.srs",
-        "download_detour": "🎯 中国直连"
-      },
-      {
-        "tag": "geoip-netflix",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geoip/netflix.srs",
-        "download_detour": "🎯 中国直连"
-      },
-      {
-        "tag": "geoip-apple",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geoip/apple.srs",
-        "download_detour": "🎯 中国直连"
-      },
-      {
-        "tag": "geoip-cn",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geoip/cn.srs",
-        "download_detour": "🎯 中国直连"
-      },
-      {
-        "tag": "STUN",
-        "type": "remote",
-        "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/senshinya/singbox_ruleset/main/rule/STUN/STUN.srs",
-        "format": "binary",
-        "download_detour": "🎯 中国直连"
-      },
-      {
-        "tag": "BlockHttpDNS",
-        "type": "remote",
-        "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/senshinya/singbox_ruleset/main/rule/BlockHttpDNS/BlockHttpDNS.srs",
-        "format": "binary",
-        "download_detour": "🎯 中国直连"
-      }
+      { "tag": "geosite-private", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/private.srs", "download_detour": "🎯 中国直连" },
+      { "tag": "geosite-cn", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/cn.srs", "download_detour": "🎯 中国直连" },
+      { "tag": "geosite-category-ads-all", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/category-ads-all.srs", "download_detour": "🎯 中国直连" },
+      { "tag": "geosite-ai", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/category-ai-!cn.srs", "download_detour": "🎯 中国直连" },
+      { "tag": "geosite-youtube", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/youtube.srs", "download_detour": "🎯 中国直连" },
+      { "tag": "geosite-google", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/google.srs", "download_detour": "🎯 中国直连" },
+      { "tag": "geosite-telegram", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/telegram.srs", "download_detour": "🎯 中国直连" },
+      { "tag": "geosite-tiktok", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/tiktok.srs", "download_detour": "🎯 中国直连" },
+      { "tag": "geosite-line", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geosite/line.srs", "download_detour": "🎯 中国直连" },
+      { "tag": "geosite-netflix", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/netflix.srs", "download_detour": "🎯 中国直连" },
+      { "tag": "geosite-apple", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/apple.srs", "download_detour": "🎯 中国直连" },
+      { "tag": "geosite-microsoft", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/microsoft.srs", "download_detour": "🎯 中国直连" },
+      { "tag": "geoip-private", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/private.srs", "download_detour": "🎯 中国直连" },
+      { "tag": "geoip-google", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geoip/google.srs", "download_detour": "🎯 中国直连" },
+      { "tag": "geoip-telegram", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geoip/telegram.srs", "download_detour": "🎯 中国直连" },
+      { "tag": "geosite-twitter", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geoip/twitter.srs", "download_detour": "🎯 中国直连" },
+      { "tag": "geosite-facebook", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geosite/facebook.srs", "download_detour": "🎯 中国直连" },
+      { "tag": "geosite-instagram", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geosite/instagram.srs", "download_detour": "🎯 中国直连" },
+      { "tag": "geosite-threads", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geosite/threads.srs", "download_detour": "🎯 中国直连" },
+      { "tag": "geosite-spotify", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geosite/spotify.srs", "download_detour": "🎯 中国直连" },
+      { "tag": "geoip-netflix", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geoip/netflix.srs", "download_detour": "🎯 中国直连" },
+      { "tag": "geoip-apple", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geoip/apple.srs", "download_detour": "🎯 中国直连" },
+      { "tag": "geoip-cn", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geoip/cn.srs", "download_detour": "🎯 中国直连" },
+      { "tag": "STUN", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/senshinya/singbox_ruleset/main/rule/STUN/STUN.srs", "download_detour": "🎯 中国直连" },
+      { "tag": "BlockHttpDNS", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/senshinya/singbox_ruleset/main/rule/BlockHttpDNS/BlockHttpDNS.srs", "download_detour": "🎯 中国直连" }
     ]
   }
 }
