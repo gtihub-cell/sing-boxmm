@@ -171,17 +171,7 @@
     {
       "tag": "国内节点",
       "type": "urltest",
-      "outbounds": [
-        "{all}"
-      ],
-      "filter": [
-        {
-          "action": "include",
-          "keywords": [
-            "[国内]"
-          ]
-        }
-      ],
+      "outbounds": [],
       "url": "http://www.msftconnecttest.com/connecttest.txt",
       "interval": "3m",
       "tolerance": 50
