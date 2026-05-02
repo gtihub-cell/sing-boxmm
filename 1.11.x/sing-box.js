@@ -29,7 +29,7 @@ config.outbounds.map(i => {
         i.outbounds.push(...getTags(proxies));
     }
     if (['国内节点'].includes(i.tag)) {
-        i.outbounds.push(...getTags(proxies, /国内/i));
+        i.outbounds.push(...getTags(proxies, /[国内]/i));
     }
     if (['hk', 'hk-auto'].includes(i.tag)) {
         i.outbounds.push(...getTags(proxies, /港|hk|hongkong|hong kong/i));
