@@ -1,0 +1,640 @@
+{
+  "mixed-port": 7890,
+  "redir-port": 7891,
+  "tproxy-port": 1536,
+  "ipv6": true,
+  "mode": "Rule",
+  "allow-lan": true,
+  "disable-keep-alive": true,
+  "geodata-mode": false,
+  "geo-auto-update": true,
+  "geo-update-interval": 24,
+  "geox-url": {
+    "asn": "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
+  },
+  "experimental": {
+    "http-headers": {
+      "request": [
+        {
+          "name": "User-Agent",
+          "value": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Mobile Safari/537.36"
+        },
+        {
+          "name": "Accept-Language",
+          "value": "en-US,en;q=0.9"
+        }
+      ]
+    }
+  },
+  "unified-delay": true,
+  "tcp-concurrent": true,
+  "log-level": "silent",
+  "find-process-mode": "always",
+  "global-client-fingerprint": "chrome",
+  "external-controller": "0.0.0.0:9090",
+  "external-ui-url": "https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip",
+  "external-ui": "./webroot/Zash/",
+  "secret": "",
+  "ntp": {
+    "enable": true,
+    "write-to-system": true,
+    "server": "ntp.ntsc.ac.cn",
+    "port": 123,
+    "interval": 60
+  },
+  "tcp-keep-alive-interval": 30,
+  "udp-timeout": 300,
+  "udp": false,
+  "mptcp": true,
+  "profile": {
+    "store-selected": true,
+    "store-fake-ip": true
+  },
+  "sniffer": {
+    "enable": true,
+    "force-dns-mapping": true,
+    "parse-pure-ip": true,
+    "override-destination": true,
+    "sniff": {
+      "HTTP": {
+        "ports": [80, "8080-8880"]
+      },
+      "TLS": {
+        "ports": [443, 5228, 8443]
+      }
+    },
+    "force-domain": ["+.v2ex.com"],
+    "skip-domain": [
+      "Mijia Cloud",
+      "dlg.io.mi.com",
+      "*.push.apple.com",
+      "*.apple.com",
+      "*.wechat.com",
+      "*.qpic.cn",
+      "*.qq.com",
+      "*.wechatapp.com",
+      "*.vivox.com",
+      "*.oray.com",
+      "*.sunlogin.net"
+    ]
+  },
+  "tun": {
+    "enable": true,
+    "device": "Meta",
+    "stack": "gvisor",
+    "mtu": 9000,
+    "dns-hijack": ["any:53", "tcp://any:53"],
+    "udp-timeout": 180,
+    "auto-route": true,
+    "strict-route": true,
+    "auto-redirect": false,
+    "auto-detect-interface": true,
+    "exclude-package": [
+      "com.xiaomi.mi_connect_service",
+      "com.xiaomi.mirror",
+      "com.milink.service",
+      "com.miui.mishare.connectivity",
+      "com.miui.daemon",
+      "com.miui.cloudservice",
+      "com.xiaomi.account",
+      "com.android.phone",
+      "com.tencent.tmgp.sgame",
+      "com.tencent.jkchess"
+    ]
+  },
+  "dns": {
+    "enable": true,
+    "ipv6": true,
+    "listen": "0.0.0.0:1053",
+    "enhanced-mode": "fake-ip",
+    "fake-ip-range": "172.20.0.1/16",
+    "fake-ip-filter": [
+      "RULE-SET:Private_域",
+      "+.3gppnetwork.org",
+      "+.xtracloud.net",
+      "+.market.xiaomi.com",
+      "+.msftncsicom",
+      "+.msftconnecttest.com",
+      "+.wotgame.cn",
+      "+.wggames.cn",
+      "+.wowsgame.cn",
+      "+.wargaming.net",
+      "+.steamcontent.com",
+      "dst-port:123",
+      "process-name:chronyd",
+      "time.windows.com",
+      "time.apple.com",
+      "time.android.com",
+      "+.ntp.org.cn",
+      "+.pool.ntp.org",
+      "+.qq.com",
+      "+.weixin.com",
+      "+.taobao.com",
+      "+.jd.com"
+    ],
+    "direct-nameserver": [
+      "223.5.5.5",
+      "1.12.12.12",
+      "119.29.29.29",
+      "114.114.114.114",
+      "https://doh.pub/dns-query#DNS连接&h3=false",
+      "https://dns.alidns.com/dns-query#DNS连接&h3=true"
+    ],
+    "proxy-server-nameserver": [
+      "180.76.76.76",
+      "223.5.5.5",
+      "https://1.12.12.12:443/dns-query#DNS连接&h3=false",
+      "https://120.53.53.53:443/dns-query#DNS连接&h3=false",
+      "https://223.5.5.5:443/dns-query#DNS连接&h3=false",
+      "https://223.6.6.6:443/dns-query#DNS连接&h3=false"
+    ],
+    "nameserver-policy": {
+      "geosite:cn,apple,private": [
+        "https://doh.pub/dns-query#DNS连接&h3=false",
+        "https://dns.alidns.com/dns-query#DNS连接&h3=true",
+        "https://dns.google/dns-query#DNS连接&h3=true",
+        "https://cloudflare-dns.com/dns-query#DNS连接&h3=true"
+      ],
+      "RULE-SET:CN_域": [
+        "https://1.12.12.12:443/dns-query#DNS连接&h3=false",
+        "https://120.53.53.53:443/dns-query#DNS连接&h3=false",
+        "https://223.5.5.5:443/dns-query#DNS连接&h3=false",
+        "https://223.6.6.6:443/dns-query#DNS连接&h3=false"
+      ]
+    },
+    "nameserver": [
+      "https://doh.pub/dns-query#DNS连接&h3=false",
+      "https://dns.alidns.com/dns-query#DNS连接&h3=true",
+      "https://dns.google/dns-query#DNS连接&h3=true",
+      "https://cloudflare-dns.com/dns-query#DNS连接&h3=true",
+      "https://8.8.8.8:443/dns-query#DNS连接&h3=true",
+      "https://8.8.4.4:443/dns-query#DNS连接&h3=true",
+      "https://1.1.1.1:443/dns-query#DNS连接&h3=true",
+      "https://1.0.0.1:443/dns-query#DNS连接&h3=true"
+    ],
+    "cache-size": 2048,
+    "max-ttl": 3600,
+    "min-ttl": 60
+  },
+  "proxies": [
+    { "name": "🌐 本机·本地直连", "type": "direct", "udp": false },
+    { "name": "⛔️ 禁止·拒绝连接", "type": "reject" },
+    { "name": "♨️ DNS_Hijack", "type": "dns" },
+    {
+      "name": "[北京]电信",
+      "type": "http",
+      "server": "220.181.33.174",
+      "port": 443,
+      "tls": true,
+      "headers": {
+        "X-T5-Auth": "683556433",
+        "Host": "153.3.236.22:443",
+        "User-Agent": "okhttp/3.11.0 Dalvik/2.1.0 (Linux; U; Android 11; Redmi K30 5G Build/RKQ1.200826.002) baiduboxapp/11.0.5.12 (Baidu; P1 11)"
+      }
+    },
+    {
+      "name": "[北京]电信1",
+      "type": "http",
+      "server": "220.181.7.1",
+      "port": 443,
+      "tls": true,
+      "headers": {
+        "X-T5-Auth": "683556433",
+        "Host": "153.3.236.22:443",
+        "User-Agent": "okhttp/3.11.0 Dalvik/2.1.0 (Linux; U; Android 11; Redmi K30 5G Build/RKQ1.200826.002) baiduboxapp/11.0.5.12 (Baidu; P1 11)"
+      }
+    },
+    {
+      "name": "[北京]电信2",
+      "type": "http",
+      "server": "220.181.111.189",
+      "port": 443,
+      "tls": true,
+      "headers": {
+        "X-T5-Auth": "683556433",
+        "Host": "153.3.236.22:443",
+        "User-Agent": "okhttp/3.11.0 Dalvik/2.1.0 (Linux; U; Android 11; Redmi K30 5G Build/RKQ1.200826.002) baiduboxapp/11.0.5.12 (Baidu; P1 11)"
+      }
+    },
+    {
+      "name": "[南京]电信",
+      "type": "http",
+      "server": "180.101.50.249",
+      "port": 443,
+      "tls": true,
+      "headers": {
+        "X-T5-Auth": "683556433",
+        "Host": "153.3.236.22:443",
+        "User-Agent": "okhttp/3.11.0 Dalvik/2.1.0 (Linux; U; Android 11; Redmi K30 5G Build/RKQ1.200826.002) baiduboxapp/11.0.5.12 (Baidu; P1 11)"
+      }
+    },
+    {
+      "name": "[南京]电信1",
+      "type": "http",
+      "server": "180.101.50.208",
+      "port": 443,
+      "tls": true,
+      "headers": {
+        "X-T5-Auth": "683556433",
+        "Host": "153.3.236.22:443",
+        "User-Agent": "okhttp/3.11.0 Dalvik/2.1.0 (Linux; U; Android 11; Redmi K30 5G Build/RKQ1.200826.002) baiduboxapp/11.0.5.12 (Baidu; P1 11)"
+      }
+    },
+    {
+      "name": "[广州]电信",
+      "type": "http",
+      "server": "14.215.182.75",
+      "port": 443,
+      "tls": true,
+      "headers": {
+        "X-T5-Auth": "683556433",
+        "Host": "153.3.236.22:443",
+        "User-Agent": "okhttp/3.11.0 Dalvik/2.1.0 (Linux; U; Android 11; Redmi K30 5G Build/RKQ1.200826.002) baiduboxapp/11.0.5.12 (Baidu; P1 11)"
+      }
+    }
+  ],
+  "proxy-providers": {
+    "钉钉直连": {
+      "type": "http",
+      "interval": 86400,
+      "health-check": {
+        "enable": true,
+        "timeout": 5000,
+        "url": "http://connectivitycheck.platform.hicloud.com/generate_204",
+        "interval": 600
+      },
+      "proxy": "订阅更新",
+      "header": {
+        "User-Agent": [
+          "clash-verge/v2.2.3",
+          "ClashMetaForAndroid/2.11.2.Meta",
+          "ClashforWindows/0.19.23",
+          "clash.meta",
+          "mihomo"
+        ]
+      },
+      "override": {
+        "additional-prefix": "钉钉直连:"
+      },
+      "path": "./proxies/钉钉直连.yaml",
+      "url": "https://download.xn--9kr856aczectt.com/jc/clash/钉钉直连.yaml"
+    },
+    "快跑🚀": {
+      "type": "http",
+      "interval": 86400,
+      "health-check": {
+        "enable": true,
+        "timeout": 5000,
+        "url": "http://connectivitycheck.platform.hicloud.com/generate_204",
+        "interval": 600
+      },
+      "proxy": "订阅更新",
+      "header": {
+        "User-Agent": [
+          "clash-verge/v2.2.3",
+          "ClashMetaForAndroid/2.11.2.Meta",
+          "ClashforWindows/0.19.23",
+          "clash.meta",
+          "mihomo"
+        ]
+      },
+      "override": {
+        "additional-prefix": "快跑🚀:",
+        "host": "www.baidu.com"
+      },
+      "filter": "^(?!.*(套餐|重置|剩余|到期|订阅|群|账户|流量|有效期|时间|官网|失联|余额|监控|直连|拒绝)).*$",
+      "path": "./proxies/快跑🚀.yaml",
+      "url": "http://192.168.58.109:3000/share/col/%E8%8B%B9%E6%9E%9C%E4%B8%93%E7%94%A8?token=bqMUTA-g6razyyCqJHp5O"
+    }
+  },
+  "proxy-groups": [
+    {
+      "name": "国外出口",
+      "icon": "https://cdn.nodeimage.com/i/iqU5loj43dZk5vwRWG40YYNdW30kVTrv.webp",
+      "type": "select",
+      "proxies": [
+        "国外自动优选",
+        "国外负载均衡",
+        "指定国外节点",
+        "指定国内节点",
+        "国外故障自切",
+        "🌐 本机·本地直连",
+        "⛔️ 禁止·拒绝连接"
+      ]
+    },
+    {
+      "name": "国内出口",
+      "icon": "https://cdn.nodeimage.com/i/iqU5loj43dZk5vwRWG40YYNdW30kVTrv.webp",
+      "type": "select",
+      "proxies": [
+        "国内自动优选",
+        "国内负载均衡",
+        "指定国内节点",
+        "国内故障自切",
+        "钉钉直连",
+        "百度免流选择",
+        "🌐 本机·本地直连",
+        "⛔️ 禁止·拒绝连接"
+      ]
+    },
+    {
+      "name": "国外自动优选",
+      "icon": "https://cdn.nodeimage.com/i/9WP3WV9IMsZijD6xfo2mLp4r4ePjeELP.webp",
+      "type": "url-test",
+      "use": ["快跑🚀"],
+      "filter": "^(?=.*(国外|海外|香港|HK|hk|澳门|MO|mo|台湾|TW|tw|美国|US|us|日本|JP|jp|韩国|KR|kr|英国|GB|gb|德国|DE|de|法国|FR|fr|加拿大|CA|ca|澳大利亚|AU|au|新加坡|SG|sg|马来西亚|MY|my|泰国|TH|th|越南|VN|vn|印度|IN|in|俄罗斯|RU|ru|巴西|BR|br|墨西哥|MX|mx|意大利|IT|it|西班牙|ES|es|荷兰|NL|nl|瑞士|CH|ch|瑞典|SE|se|挪威|NO|no|芬兰|FI|fi|丹麦|DK|dk|新西兰|NZ|nz|菲律宾|PH|ph|印尼|ID|id)).*$"
+    },
+    {
+      "name": "国内自动优选",
+      "icon": "https://cdn.nodeimage.com/i/9WP3WV9IMsZijD6xfo2mLp4r4ePjeELP.webp",
+      "type": "url-test",
+      "use": ["快跑🚀"],
+      "filter": "^(?=.*(CN|移动|联通|电信|广东|福建|广州|上海|深圳|北京|湖北|四川|重庆|浙江|江苏|山东|河南|云南|南京|苏州|镇江|辽宁|陕西|西安|济南|武汉|徐州)).*$"
+    },
+    {
+      "name": "指定国外节点",
+      "icon": "https://cdn.nodeimage.com/i/d3j6KCMHa8lwcviZRpayYRaMa3AH5hpj.webp",
+      "type": "select",
+      "use": ["快跑🚀"],
+      "filter": "^(?=.*(国外|海外|香港|HK|hk|澳门|MO|mo|台湾|TW|tw|美国|US|us|日本|JP|jp|韩国|KR|kr|英国|GB|gb|德国|DE|de|法国|FR|fr|加拿大|CA|ca|澳大利亚|AU|au|新加坡|SG|sg|马来西亚|MY|my|泰国|TH|th|越南|VN|vn|印度|IN|in|俄罗斯|RU|ru|巴西|BR|br|墨西哥|MX|mx|意大利|IT|it|西班牙|ES|es|荷兰|NL|nl|瑞士|CH|ch|瑞典|SE|se|挪威|NO|no|芬兰|FI|fi|丹麦|DK|dk|新西兰|NZ|nz|菲律宾|PH|ph|印尼|ID|id)).*$"
+    },
+    {
+      "name": "指定国内节点",
+      "icon": "https://cdn.nodeimage.com/i/d3j6KCMHa8lwcviZRpayYRaMa3AH5hpj.webp",
+      "type": "select",
+      "use": ["快跑🚀"],
+      "filter": "^(?=.*(CN|广东|福建|广州|上海|深圳|北京|湖北|四川|重庆|浙江|江苏|山东|河南|云南|南京|苏州|镇江|辽宁|陕西|西安|济南|武汉|徐州|以下|官网|回国|距离|套餐|剩余)).*$"
+    },
+    {
+      "name": "国外负载均衡",
+      "icon": "https://www.clashverge.dev/assets/icons/merry_go.svg",
+      "type": "load-balance",
+      "use": ["快跑🚀"],
+      "filter": "^(?=.*(国外|海外|香港|HK|hk|澳门|MO|mo|台湾|TW|tw|美国|US|us|日本|JP|jp|韩国|KR|kr|英国|GB|gb|德国|DE|de|法国|FR|fr|加拿大|CA|ca|澳大利亚|AU|au|新加坡|SG|sg|马来西亚|MY|my|泰国|TH|th|越南|VN|vn|印度|IN|in|俄罗斯|RU|ru|巴西|BR|br|墨西哥|MX|mx|意大利|IT|it|西班牙|ES|es|荷兰|NL|nl|瑞士|CH|ch|瑞典|SE|se|挪威|NO|no|芬兰|FI|fi|丹麦|DK|dk|新西兰|NZ|nz|菲律宾|PH|ph|印尼|ID|id)).*$",
+      "url": "http://connectivitycheck.platform.hicloud.com/generate_204",
+      "interval": 300,
+      "strategy": "round-robin"
+    },
+    {
+      "name": "国内负载均衡",
+      "icon": "https://www.clashverge.dev/assets/icons/balance.svg",
+      "type": "load-balance",
+      "use": ["快跑🚀"],
+      "filter": "^(?=.*(CN|移动|联通|电信|广东|福建|广州|上海|深圳|北京|湖北|四川|重庆|浙江|江苏|山东|河南|云南|南京|苏州|镇江|辽宁|陕西|西安|济南|武汉|徐州)).*$",
+      "url": "http://connectivitycheck.platform.hicloud.com/generate_204",
+      "interval": 300,
+      "strategy": "round-robin"
+    },
+    {
+      "name": "国外故障自切",
+      "icon": "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Return.svg",
+      "type": "fallback",
+      "use": ["快跑🚀"],
+      "filter": "^(?=.*(国外|海外|香港|HK|hk|澳门|MO|mo|台湾|TW|tw|美国|US|us|日本|JP|jp|韩国|KR|kr|英国|GB|gb|德国|DE|de|法国|FR|fr|加拿大|CA|ca|澳大利亚|AU|au|新加坡|SG|sg|马来西亚|MY|my|泰国|TH|th|越南|VN|vn|印度|IN|in|俄罗斯|RU|ru|巴西|BR|br|墨西哥|MX|mx|意大利|IT|it|西班牙|ES|es|荷兰|NL|nl|瑞士|CH|ch|瑞典|SE|se|挪威|NO|no|芬兰|FI|fi|丹麦|DK|dk|新西兰|NZ|nz|菲律宾|PH|ph|印尼|ID|id)).*$",
+      "url": "http://connectivitycheck.platform.hicloud.com/generate_204",
+      "interval": 300
+    },
+    {
+      "name": "国内故障自切",
+      "icon": "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/Return.svg",
+      "type": "fallback",
+      "use": ["快跑🚀"],
+      "filter": "^(?=.*(CN|移动|联通|电信|广东|福建|广州|上海|深圳|北京|湖北|四川|重庆|浙江|江苏|山东|河南|云南|南京|苏州|镇江|辽宁|陕西|西安|济南|武汉|徐州)).*$",
+      "url": "http://connectivitycheck.platform.hicloud.com/generate_204",
+      "interval": 300
+    },
+    {
+      "name": "钉钉直连",
+      "icon": "https://www.clashverge.dev/assets/icons/link.svg",
+      "type": "select",
+      "use": ["钉钉直连"]
+    },
+    {
+      "name": "百度免流选择",
+      "icon": "https://www.clashverge.dev/assets/icons/link.svg",
+      "type": "select",
+      "proxies": [
+        "[北京]电信",
+        "[北京]电信1",
+        "[北京]电信2",
+        "[南京]电信",
+        "[南京]电信1",
+        "[广州]电信"
+      ]
+    },
+    {
+      "name": "订阅更新",
+      "icon": "https://www.clashverge.dev/assets/icons/chatgpt.svg",
+      "type": "select",
+      "proxies": [
+        "国内出口",
+        "国外出口",
+        "🌐 本机·本地直连",
+        "⛔️ 禁止·拒绝连接"
+      ]
+    },
+    {
+      "name": "DNS连接",
+      "icon": "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/DNS.svg",
+      "type": "select",
+      "proxies": [
+        "🌐 本机·本地直连",
+        "国内出口",
+        "国外出口",
+        "⛔️ 禁止·拒绝连接"
+      ]
+    },
+    {
+      "name": "漏网之鱼",
+      "icon": "https://www.clashverge.dev/assets/icons/fish.svg",
+      "type": "select",
+      "proxies": [
+        "国外出口",
+        "国内出口",
+        "🌐 本机·本地直连",
+        "⛔️ 禁止·拒绝连接"
+      ]
+    },
+    {
+      "name": "广告拦截",
+      "icon": "https://www.clashverge.dev/assets/icons/bug.svg",
+      "type": "select",
+      "proxies": [
+        "REJECT-DROP",
+        "PASS",
+        "🌐 本机·本地直连",
+        "国内出口",
+        "⛔️ 禁止·拒绝连接",
+        "♨️ DNS_Hijack"
+      ]
+    },
+    {
+      "name": "WebRTC",
+      "icon": "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/icon/WebRTC.svg",
+      "type": "select",
+      "proxies": [
+        "REJECT-DROP",
+        "PASS",
+        "⛔️ 禁止·拒绝连接",
+        "国内出口",
+        "🌐 本机·本地直连",
+        "♨️ DNS_Hijack"
+      ]
+    },
+    {
+      "name": "系统服务",
+      "icon": "https://www.clashverge.dev/assets/icons/android.svg",
+      "type": "select",
+      "proxies": [
+        "🌐 本机·本地直连",
+        "国内出口",
+        "国外出口",
+        "⛔️ 禁止·拒绝连接"
+      ]
+    },
+    {
+      "name": "特殊地址",
+      "icon": "https://cdn.jsdelivr.net/gh/MoGuangYu/Surfing@rm/Home/icon/User.svg",
+      "type": "select",
+      "url": "https://www.baidu.com/favicon.ico",
+      "interval": 86400,
+      "proxies": [
+        "国外出口",
+        "国内出口",
+        "🌐 本机·本地直连",
+        "⛔️ 禁止·拒绝连接"
+      ]
+    }
+  ],
+  "rule-anchor": {
+    "Local": { "type": "file", "behavior": "classical", "format": "text" },
+    "Classical": { "type": "http", "behavior": "classical", "format": "text", "interval": 86400 },
+    "IPCIDR": { "type": "http", "behavior": "ipcidr", "format": "mrs", "interval": 86400 },
+    "Domain": { "type": "http", "behavior": "domain", "format": "mrs", "interval": 86400 }
+  },
+  "rule-providers": {
+    "自定义规则": {
+      "type": "file",
+      "behavior": "classical",
+      "format": "text",
+      "path": "./etc/自定义规则.list"
+    },
+    "WebRTC_端/域": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "interval": 86400,
+      "path": "./rules/WebRTC.list",
+      "url": "https://cdn.jsdelivr.net/gh/GitMetaio/Surfing@rm/Home/rules/WebRTC.list"
+    },
+    "CN_IP": {
+      "type": "http",
+      "behavior": "ipcidr",
+      "format": "mrs",
+      "interval": 86400,
+      "path": "./rules/CN_IP.mrs",
+      "url": "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs"
+    },
+    "CN_域": {
+      "type": "http",
+      "behavior": "domain",
+      "format": "mrs",
+      "interval": 86400,
+      "path": "./rules/CN_域.mrs",
+      "url": "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.mrs"
+    },
+    "ChinaMax_国内域名": {
+      "type": "http",
+      "behavior": "classical",
+      "format": "text",
+      "interval": 86400,
+      "path": "./rules/ChinaMax.list",
+      "url": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax.list"
+    },
+    "No-ads-all_域": {
+      "type": "http",
+      "behavior": "domain",
+      "format": "mrs",
+      "interval": 86400,
+      "path": "./rules/No-ads-all.mrs",
+      "url": "https://anti-ad.net/mihomo.mrs"
+    },
+    "Private_域": {
+      "type": "http",
+      "behavior": "domain",
+      "format": "mrs",
+      "interval": 86400,
+      "path": "./rules/LAN.mrs",
+      "url": "https://cdn.jsdelivr.net/gh/GitMetaio/rule@master/rule/Clash/Lan/Lan_OCD_Domain.mrs"
+    },
+    "Private_IP": {
+      "type": "http",
+      "behavior": "ipcidr",
+      "format": "mrs",
+      "interval": 86400,
+      "path": "./rules/Private_IP.mrs",
+      "url": "https://cdn.jsdelivr.net/gh/GitMetaio/rule@master/rule/Clash/Lan/Lan_OCD_IP.mrs"
+    },
+    "CN_IPv6": {
+      "type": "http",
+      "behavior": "ipcidr",
+      "format": "text",
+      "interval": 86400,
+      "path": "./rules/CN_IPv6.list",
+      "url": "https://ruleset.skk.moe/Clash/ip/china_ip_ipv6.txt"
+    }
+  },
+  "rules": [
+    "AND,((NETWORK,UDP),(DST-PORT,443)),REJECT",
+    "AND,((NETWORK,UDP),(DST-PORT,23000)),REJECT",
+    "AND,((NETWORK,UDP),(DST-PORT,8443)),REJECT",
+    "AND,((NETWORK,UDP),(DST-PORT,8080)),REJECT",
+    "DOMAIN-SUFFIX,msftconnecttest.com,系统服务",
+    "DOMAIN-SUFFIX,msftncsi.com,系统服务",
+    "DOMAIN-SUFFIX,clash.razord.top,系统服务",
+    "DOMAIN-SUFFIX,yacd.haishan.me,系统服务",
+    "DOMAIN-SUFFIX,board.zash.run.place,系统服务",
+    "DOMAIN-SUFFIX,time.is,系统服务",
+    "DOMAIN-SUFFIX,ntsc.ac.cn,系统服务",
+    "DOMAIN-SUFFIX,ntp.aliyun.com,系统服务",
+    "DOMAIN-SUFFIX,time.windows.com,系统服务",
+    "DOMAIN-SUFFIX,time.apple.com,系统服务",
+    "DOMAIN-SUFFIX,time.android.com,系统服务",
+    "DOMAIN-SUFFIX,pool.ntp.org,系统服务",
+    "DST-PORT,123,系统服务",
+    "PROCESS-NAME,chronyd,系统服务",
+    "DOMAIN-KEYWORD,ntp,系统服务",
+    "DOMAIN-SUFFIX,github.com,国外出口",
+    "DOMAIN-SUFFIX,gitlab.com,国外出口",
+    "DOMAIN-SUFFIX,npmjs.com,国外出口",
+    "DOMAIN-SUFFIX,docker.com,国外出口",
+    "DOMAIN-SUFFIX,stackoverflow.com,国外出口",
+    "DOMAIN-SUFFIX,openai.com,国外出口",
+    "DOMAIN-SUFFIX,anthropic.com,国外出口",
+    "DOMAIN-SUFFIX,x.com,国外出口",
+    "DOMAIN-SUFFIX,reddit.com,国外出口",
+    "DOMAIN-SUFFIX,youtube.com,国外出口",
+    "DOMAIN-SUFFIX,netflix.com,国外出口",
+    "DOMAIN-SUFFIX,disneyplus.com,国外出口",
+    "DOMAIN-SUFFIX,spotify.com,国外出口",
+    "DOMAIN-SUFFIX,discord.com,国外出口",
+    "DOMAIN-SUFFIX,telegram.org,国外出口",
+    "DOMAIN-SUFFIX,twitter.com,国外出口",
+    "DOMAIN-SUFFIX,facebook.com,国外出口",
+    "DOMAIN-SUFFIX,instagram.com,国外出口",
+    "DOMAIN-SUFFIX,tiktok.com,国外出口",
+    "DST-PORT,53,♨️ DNS_Hijack",
+    "DST-PORT,853,DNS连接",
+    "RULE-SET,自定义规则,特殊地址",
+    "RULE-SET,WebRTC_端/域,WebRTC",
+    "RULE-SET,No-ads-all_域,广告拦截",
+    "RULE-SET,Private_域,系统服务",
+    "RULE-SET,Private_IP,系统服务,no-resolve",
+    "RULE-SET,CN_域,国内出口",
+    "RULE-SET,CN_IP,国内出口",
+    "RULE-SET,CN_IPv6,国内出口,no-resolve",
+    "AND,((NETWORK,UDP)),REJECT",
+    "MATCH,漏网之鱼",
+    "DOMAIN,browserleaks.com,漏网之鱼"
+  ]
+}
