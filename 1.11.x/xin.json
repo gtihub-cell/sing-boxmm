@@ -335,7 +335,7 @@
       { "network": "udp", "action": "reject" },
       { "network": "udp", "port": 443, "action": "reject" },
       { "protocol": "dns", "action": "hijack-dns" },
-      { "domain_suffix": "taobao.com", "outbound": "百度免流选择" },
+      { "domain_suffix": "taobao.com", "outbound": "江苏电信2" },
       { "ip_is_private": true, "outbound": "🎯 中国直连" },
       { "clash_mode": "direct", "outbound": "🎯 中国直连" },
       { "clash_mode": "global", "outbound": "GLOBAL" },
