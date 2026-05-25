@@ -375,6 +375,7 @@
       { "rule_set": ["geoip-cn", "geosite-cn", "geosite-private"], "outbound": "🎯 中国直连" }
     ],
     "rule_set": [
+      { "tag": "taobao", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/gtihub-cell/sing-boxmm/main/1.11.x/taobao.srs", "download_detour": "🎯 中国直连" },
       { "tag": "geosite-private", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/private.srs", "download_detour": "🎯 中国直连" },
       { "tag": "geosite-cn", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/cn.srs", "download_detour": "🎯 中国直连" },
       { "tag": "geosite-category-ads-all", "type": "remote", "format": "binary", "url": "https://gh.iknn.eu.org/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/category-ads-all.srs", "download_detour": "🎯 中国直连" },
