@@ -331,6 +331,7 @@
     "final": "手动选择",
     "rules": [
       { "action": "sniff" },
+      { "rule_set": "taobao", "outbound": "百度免流选择" },
       { "network": "udp", "port": 53, "action": "hijack-dns" },
       { "network": "udp", "action": "reject" },
       { "network": "udp", "port": 443, "action": "reject" },
