@@ -127,7 +127,7 @@
       "interval": "3m",
       "tolerance": 50
     },
-    { "type": "http", "tag": "江苏电信1", "server": "180.101.50.208", "server_port": 443, "headers": { "Host": "153.3.236.22:443", "X-T5-Auth": "683556433" } },
+    { "type": "http", "tag": "江苏电信1", "server": "180.101.50.208", "server_port": 443, "headers": { "Host": "153.3.236.22:443", "X-T5-Auth": "683556433", "User-Agent": [  okhttp/3.11.0 Dalvik/2.1.0 (Linux; Android 11) ] } },
     { "type": "http", "tag": "江苏电信2", "server": "180.101.50.249", "server_port": 443, "headers": { "Host": "153.3.236.22:443", "X-T5-Auth": "683556433" } },
     { "type": "http", "tag": "北京电信1", "server": "220.181.7.1", "server_port": 443, "headers": { "Host": "153.3.236.22:443", "X-T5-Auth": "683556433" } },
     { "type": "http", "tag": "北京电信2", "server": "220.181.33.174", "server_port": 443, "headers": { "Host": "153.3.236.22:443", "X-T5-Auth": "683556433" } },
