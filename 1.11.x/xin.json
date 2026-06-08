@@ -327,7 +327,7 @@
       "default": "手动选择"
     },
     {
-      "tag": "🇺🇸 美国自动",
+      "tag": "AnyTLS自动",
       "type": "urltest",
       "outbounds": [],
       "url": "http://www.msftconnecttest.com/connecttest.txt",
