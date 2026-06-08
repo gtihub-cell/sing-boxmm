@@ -327,16 +327,13 @@
       "default": "手动选择"
     },
     {
-      "type": "load-balancer",
-      "tag": "⚖️ 负载均衡",
-      "strategy": "round_robin",
-      "nodes": [],
-      "check": {
-        "interval": "1m",
-        "url": "https://www.gstatic.com/generate_204",
-        "expect": "204"
-      }
-    }
+      "tag": "🇺🇸 美国自动",
+      "type": "urltest",
+      "outbounds": [],
+      "url": "http://www.msftconnecttest.com/connecttest.txt",
+      "interval": "1m",
+      "tolerance": 50
+    },
   ],
   "route": {
     "auto_detect_interface": true,
