@@ -335,6 +335,7 @@
         "interval": "5m",
         "url": "https://www.gstatic.com/generate_204",
         "expect": "204"
+      }
     }
   ],
   "route": {
