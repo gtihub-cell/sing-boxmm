@@ -156,7 +156,7 @@
       "interrupt_exist_connections": true,
       "outbounds": [
         "自动选择",
-        "⚖️ 负载均衡"
+        "AnyTLS自动"
       ],
       "default": "自动选择"
     },
