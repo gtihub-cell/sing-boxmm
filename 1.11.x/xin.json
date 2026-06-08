@@ -330,7 +330,7 @@
       "type": "load-balancer",
       "tag": "⚖️ 负载均衡",
       "strategy": "round_robin",
-      "nodes": ["anytls"],
+      "nodes": [],
       "check": {
         "interval": "1m",
         "url": "https://www.gstatic.com/generate_204",
