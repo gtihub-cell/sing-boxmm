@@ -332,7 +332,7 @@
       "strategy": "round_robin",
       "nodes": ["anytls"],
       "check": {
-        "interval": "5m",
+        "interval": "1m",
         "url": "https://www.gstatic.com/generate_204",
         "expect": "204"
       }
