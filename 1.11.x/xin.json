@@ -155,7 +155,8 @@
       "type": "selector",
       "interrupt_exist_connections": true,
       "outbounds": [
-        "自动选择"
+        "自动选择",
+        "⚖️ 负载均衡"
       ],
       "default": "自动选择"
     },
@@ -324,6 +325,16 @@
       "type": "selector",
       "outbounds": ["🎯 中国直连", "手动选择", "🇭🇰 香港自动", "🇨🇳 台湾自动", "🇸🇬 新加坡自动", "🇯🇵 日本自动", "🇰🇷 韩国自动", "🇺🇸 美国自动", "🌐 全球自动"],
       "default": "手动选择"
+    },
+    {
+      "type": "load-balancer",
+      "tag": "⚖️ 负载均衡",
+      "strategy": "round_robin",
+      "nodes": ["anytls-01", "anytls-02"],
+      "check": {
+        "interval": "5m",
+        "url": "https://www.gstatic.com/generate_204",
+        "expect": "204"
     }
   ],
   "route": {
