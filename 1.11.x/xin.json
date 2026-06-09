@@ -165,7 +165,7 @@
       "type": "urltest",
       "outbounds": [],
       "url": "http://www.msftconnecttest.com/connecttest.txt",
-      "interval": "3m",
+      "interval": "10m",
       "tolerance": 50
     },
 
@@ -331,7 +331,7 @@
       "type": "urltest",
       "outbounds": [],
       "url": "http://www.msftconnecttest.com/connecttest.txt",
-      "interval": "1m",
+      "interval": "5m",
       "tolerance": 50
     }
   ],
